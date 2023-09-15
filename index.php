@@ -14,7 +14,6 @@ $loggedInUser = isset($_SESSION['user']) ? $_SESSION['user'] : null;
 // Get all students from the database
 $sql = "SELECT * FROM students";
 $result = $mysqli->query($sql);
-
 ?>
 
     <!DOCTYPE html>
@@ -35,14 +34,14 @@ $result = $mysqli->query($sql);
     <h2>Student List</h2>
     <table>
         <tr>
-            <th>Name</th>
+            <th>Username</th>
             <th>Year</th>
         </tr>
         <?php
         while ($row = $result->fetch_assoc()) {
             echo "<tr>";
-            echo "<td>" . $row['name'] . "</td>";
-            echo "<td>" . $row['year'] . "</td>";
+            echo "<td class='name'>" .  htmlspecialchars($row['username']) . "</td>";
+            echo "<td class='year'>" . htmlspecialchars($row['year']) . "</td>";
             echo "</tr>";
         }
         ?>
