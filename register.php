@@ -10,22 +10,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("Connection failed: " . $mysqli->connect_error);
     }
 
-    // Retrieve user input without proper validation
+    // Retrieve user input
     $name = $_POST['name'];
     $year = $_POST['year'];
     $username = $_POST['username'];
     $password = $_POST['password'];
 
+    // Hash the password before storing it
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+    // Use prepared statement to insert data into the database
     $sql = "INSERT INTO students (name, year, username, password) VALUES (?, ?, ?, ?)";
     $stmt = $mysqli->prepare($sql);
-    $stmt->bind_param("ssss", $name, $year, $username, $password);
+    $stmt->bind_param("ssss", $name, $year, $username, $hashedPassword);
+
     if ($stmt->execute()) {
-        header("Location: login.php"); // Redirect to login page after successful registration
+        header("Location: login.php"); // Redirect to the login page after successful registration
         exit();
     } else {
         $registrationError = "Registration failed. Please try again.";
     }
 
+    $stmt->close();
     $mysqli->close();
 }
 ?>

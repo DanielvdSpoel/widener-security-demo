@@ -13,21 +13,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    $sql = "SELECT * FROM students WHERE username = ? AND password = ?";
+    // Retrieve hashed password from the database
+    $sql = "SELECT password FROM students WHERE username = ?";
     $stmt = $mysqli->prepare($sql);
-    $stmt->bind_param("ss", $username, $password);
+    $stmt->bind_param("s", $username);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($result->num_rows == 1) {
-        // Successful login
-        $_SESSION['user'] = $username;
-        header("Location: index.php"); // Redirect to the home page
-        exit();
+        $row = $result->fetch_assoc();
+        $hashedPassword = $row['password'];
+
+        // Verify the hashed password
+        if (password_verify($password, $hashedPassword)) {
+            // Successful login
+            $_SESSION['user'] = $username;
+            header("Location: home.php"); // Redirect to the home page
+            exit();
+        } else {
+            $loginError = "Invalid username or password. Please try again.";
+        }
     } else {
         $loginError = "Invalid username or password. Please try again.";
     }
 
+    $stmt->close();
     $mysqli->close();
 }
 ?>
