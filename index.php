@@ -25,7 +25,7 @@ $result = $mysqli->query($sql);
     <nav>
         <h1>Welcome to the Student Portal</h1>
         <?php if ($loggedInUser) : ?>
-            <p>Welcome, <?= $loggedInUser ?></p>
+            <p>Welcome, <?= htmlspecialchars($loggedInUser) ?></p>
         <?php else : ?>
             <a href="register.php">Register</a>
         <?php endif; ?>
@@ -40,8 +40,8 @@ $result = $mysqli->query($sql);
         <?php
         while ($row = $result->fetch_assoc()) {
             echo "<tr>";
-            echo "<td class='name'>" .  $row['username'] . "</td>";
-            echo "<td class='year'>" . $row['year'] . "</td>";
+            echo "<td class='name'>" .  htmlspecialchars($row['username']) . "</td>";
+            echo "<td class='year'>" . htmlspecialchars($row['year']) . "</td>";
             echo "</tr>";
         }
         ?>

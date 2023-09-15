@@ -16,7 +16,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // Vulnerable to SQL injection
     $sql = "INSERT INTO students (name, year, username, password) VALUES (?, ?, ?, ?)";
     $stmt = $mysqli->prepare($sql);
     $stmt->bind_param("ssss", $name, $year, $username, $password);
