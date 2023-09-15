@@ -17,9 +17,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
 
     // Vulnerable to SQL injection
-    $sql = "INSERT INTO students (name, year, username, password) VALUES ('$name', '$year', '$username', '$password')";
-    echo $sql;
-    if ($mysqli->multi_query($sql) === TRUE) {
+    $sql = "INSERT INTO students (name, year, username, password) VALUES (?, ?, ?, ?)";
+    $stmt = $mysqli->prepare($sql);
+    $stmt->bind_param("ssss", $name, $year, $username, $password);
+    if ($stmt->execute()) {
         header("Location: login.php"); // Redirect to login page after successful registration
         exit();
     } else {

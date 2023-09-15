@@ -13,12 +13,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // Vulnerable to SQL injection
-    $sql = "SELECT * FROM students WHERE username = '$username' AND password = '$password'";
-    echo $sql;
-    $result = $mysqli->query($sql);
+    $sql = "SELECT * FROM students WHERE username = ? AND password = ?";
+    $stmt = $mysqli->prepare($sql);
+    $stmt->bind_param("ss", $username, $password);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-    if ($result->num_rows > 1) {
+    if ($result->num_rows == 1) {
         // Successful login
         $_SESSION['user'] = $username;
         header("Location: index.php"); // Redirect to the home page

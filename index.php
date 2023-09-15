@@ -40,8 +40,8 @@ $result = $mysqli->query($sql);
         <?php
         while ($row = $result->fetch_assoc()) {
             echo "<tr>";
-            echo "<td class='name'>" .  htmlspecialchars($row['username']) . "</td>";
-            echo "<td class='year'>" . htmlspecialchars($row['year']) . "</td>";
+            echo "<td class='name'>" .  $row['username'] . "</td>";
+            echo "<td class='year'>" . $row['year'] . "</td>";
             echo "</tr>";
         }
         ?>
