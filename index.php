@@ -1,4 +1,8 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
 // Connect to the database (replace with your database configuration)
 $mysqli = new mysqli("localhost", "demo", "9S6WAL3VIxfLG6IztksA", "demo");
