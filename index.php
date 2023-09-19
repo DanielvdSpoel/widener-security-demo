@@ -1,7 +1,7 @@
 <?php
 session_start();
 // Connect to the database (replace with your database configuration)
-$mysqli = new mysqli("168.119.235.149", "widener_test", "e4OKKS4yz1lwFvNQEGE5", "widener_test");
+$mysqli = new mysqli("widener.danielvdspoel.nl", "demo", "9S6WAL3VIxfLG6IztksA", "demo");
 
 // Check connection
 if ($mysqli->connect_error) {
@@ -28,6 +28,8 @@ $result = $mysqli->query($sql);
             <p>Welcome, <?= $loggedInUser ?></p>
         <?php else : ?>
             <a href="register.php">Register</a>
+            <a href="login.php">Login</a>
+
         <?php endif; ?>
     </nav>
 
@@ -40,8 +42,8 @@ $result = $mysqli->query($sql);
         <?php
         while ($row = $result->fetch_assoc()) {
             echo "<tr>";
-            echo "<td class='name'>" .  htmlspecialchars($row['username']) . "</td>";
-            echo "<td class='year'>" . htmlspecialchars($row['year']) . "</td>";
+            echo "<td class='name'>" .  $row['username'] . "</td>";
+            echo "<td class='year'>" . $row['year'] . "</td>";
             echo "</tr>";
         }
         ?>

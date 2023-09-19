@@ -3,8 +3,7 @@
 session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Connect to the database (replace with your database configuration)
-    $mysqli = new mysqli("168.119.235.149", "widener_test", "e4OKKS4yz1lwFvNQEGE5", "widener_test");
-
+    $mysqli = new mysqli("widener.danielvdspoel.nl", "demo", "9S6WAL3VIxfLG6IztksA", "demo");
     // Check connection
     if ($mysqli->connect_error) {
         die("Connection failed: " . $mysqli->connect_error);
