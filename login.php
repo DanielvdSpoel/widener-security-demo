@@ -25,11 +25,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->execute();
     $result = $stmt->get_result();
 
-    if ($result->num_rows >= 1) {
-        // Successful login
-        $_SESSION['user'] = $username;
-        header("Location: index.php"); // Redirect to the home page
-        exit();
+    if ($result->num_rows = 1) {
+        $row = $result->fetch_assoc();
+        $hashedPassword = $row['password'];
+
+        if (password_verify($password, $hashedPassword)) {
+            // Successful login
+            $_SESSION['user'] = $username;
+            header("Location: index.php"); // Redirect to the home page
+            exit();
+        } else {
+            $loginError = "Invalid username or password. Please try again.";
+        }
     } else {
         $loginError = "Invalid username or password. Please try again.";
     }
