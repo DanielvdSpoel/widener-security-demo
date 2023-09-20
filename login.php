@@ -18,9 +18,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
 
     // Vulnerable to SQL injection
-    $sql = "SELECT * FROM students WHERE username = '$username' AND password = '$password'";
+    $sql = "SELECT * FROM students WHERE username = ? AND password = ?";
     echo $sql;
-    $result = $mysqli->query($sql);
+    $stmt = $mysqli->prepare($sql);
+    $stmt->bind_param("ss", $username, $password);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     if ($result->num_rows >= 1) {
         // Successful login
