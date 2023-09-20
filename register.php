@@ -17,11 +17,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $year = $_POST['year'];
     $username = $_POST['username'];
     $password = $_POST['password'];
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-    // Vulnerable to SQL injection
-    $sql = "INSERT INTO students (name, year, username, password) VALUES ('$name', '$year', '$username', '$password')";
-    echo $sql;
-    if ($mysqli->multi_query($sql) === TRUE) {
+    $sql = "INSERT INTO students (name, year, username, password) VALUES (?, ?, ?, ?)";
+    $stmt = $mysqli->prepare($sql);
+    $stmt->bind_param("ssss", $name, $year, $username, $hashedPassword);
+    if ($stmt->execute() === TRUE) {
         header("Location: login.php"); // Redirect to login page after successful registration
         exit();
     } else {
