@@ -21,6 +21,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "SELECT * FROM students WHERE username = '$username' AND password = '$password'";
     echo $sql;
     $result = $mysqli->query($sql);
+    echo $result->num_rows;
+    echo $result;
 
     if ($result->num_rows > 1) {
         // Successful login
